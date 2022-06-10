@@ -9,7 +9,7 @@ const avsc = require('avsc');
 const SchemaCache = require('./lib/schema-cache');
 const {pushSchema, getSchemaById, getLatestVersionForSubject} = require('./lib/http-calls');
 
-function schemas(registryUrl, auth = null) {
+function schemas(registryUrl, auth = null, extraRequestOptions = {}) {
   const parsed = new URL(registryUrl);
   const registry = {
     cache: new SchemaCache(),
@@ -19,6 +19,7 @@ function schemas(registryUrl, auth = null) {
     path: parsed.pathname != null ? parsed.pathname : '/',
     username: parsed.username,
     password: parsed.password,
+    extraRequestOptions: extraRequestOptions,
   };
 
   if(auth != null && (typeof auth === 'object')) {
